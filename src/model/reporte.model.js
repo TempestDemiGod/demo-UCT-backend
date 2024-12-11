@@ -1,4 +1,5 @@
 import {Schema, model} from 'mongoose'
+import { optional } from 'zod'
 
 const reportSchema = new Schema(
     {
@@ -10,6 +11,12 @@ const reportSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'Aula',
             required: true
+        },
+        fecha : {
+            type: String
+        },
+        hora : {
+            type: String
         }
     },
     {

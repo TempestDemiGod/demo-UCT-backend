@@ -13,6 +13,16 @@ export const reporteSchema = z.object(
                 required_error: 'El ID del aula es necesaria para registrar el reporte.',
                 invalid_type_error: 'El ID del aula es un tipo String'
             }
-        )
+        ),
+        fecha: z.string(
+            {
+                invalid_type_error: "La fecha debe ser un String"
+            }
+        ).optional(),
+        hora: z.string(
+            {
+                invalid_type_error: "La fecha debe ser un String"
+            }
+        ).optional()
     }
 )

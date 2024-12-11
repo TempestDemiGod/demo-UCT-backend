@@ -15,11 +15,18 @@ export const CreateReport = async(observacion , idAula) => {
             observacion,
             idAula
         })
-
+        
         const saveReport = await newReport.save()
+        const fecha = saveReport.createdAt
+        const patchReport = await reporteModel.findByIdAndUpdate(saveReport._id, {
+            fecha : `${String(fecha.getDate()).padStart(2, '0')}/${String(fecha.getMonth() + 1).padStart(2, '0')}/${String(fecha.getFullYear())}`,
+            hora : `${String(fecha.getHours()).padStart(2, '0')}:${String(fecha.getMinutes()).padStart(2, '0')}`
+        }, {
+            new : true
+        })
         return {
             status: 201,
-            data: saveReport
+            data: patchReport
         }
     } catch (e) {
         console.log(e)
@@ -43,18 +50,9 @@ export const getReport = async(id) => {
             status: 404,
             data: 'El reporte no existe'
         }
-        const fecha = reportFound._doc.createdAt
-        const dia = String(fecha.getDate()).padStart(2, '0'); 
-        const mes = String(fecha.getMonth() + 1).padStart(2, '0'); 
-        const anio = String(fecha.getFullYear()); 
-        const newResponse = {
-            ...reportFound._doc,
-            fecha: `${dia}/${mes}/${anio}`,
-            hora: `${String(fecha.getHours()).padStart(2, '0')}:${String(fecha.getMinutes()).padStart(2, '0')}`
-        }
         return {
             status: 200,
-            data: newResponse
+            data: reportFound
         }
 
     } catch (e) {
